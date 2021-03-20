@@ -1,4 +1,4 @@
-name: Status.Dashboard
+name: Truman Dashboard
 
 on: 
   push:
