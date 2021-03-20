@@ -2,9 +2,7 @@ name: Truman Dashboard
 
  
 on:
-  create:
-    tags:
-      - v*
+  [push,  workflow_dispatch]
 
 #
 env:
