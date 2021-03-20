@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "d90c7720-641d-43d8-b191-03e2216d8ded",
-		"name": "Truman Test",
+		"name": "Dashboard Test",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -19,8 +19,8 @@
 							"pm.test(\"Response time is less than 2000ms\", function () {\r",
 							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
 							"});\r",
-							"pm.test(\"Body matches string\", function () {\r",
-							"    pm.expect(pm.response.text()).to.include(\"Truman\");\r",
+							"pm.test(\"Contains Truman\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"TruMan Dashboard\");\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -31,12 +31,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://{{environmentname}}-
-					.s3.amazonaws.com",
-					"protocol": "https",
+					"raw": "http://{{environmentname}}-{{product}}.s3-website.eu-west-2.amazonaws.com",
+					"protocol": "http",
 					"host": [
-						"{{environmentname}}-truman",
-						"s3",
+						"{{environmentname}}-{{product}}",
+						"s3-website",
+						"eu-west-2",
 						"amazonaws",
 						"com"
 					]

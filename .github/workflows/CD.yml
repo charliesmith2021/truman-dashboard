@@ -43,10 +43,10 @@ jobs:
       id: gitversion # step id used as reference for output values
       uses: gittools/actions/gitversion/execute@v0.9.3
   
-    - name: Validate Cloudformation Templates
-      uses: scottbrenner/cfn-lint-action@master
-      with:
-        args: "build/*.yaml"
+    #- name: Validate Cloudformation Templates
+    #  uses: scottbrenner/cfn-lint-action@master
+    #  with:
+    #    args: "build/*.yaml"
 
     - name: Check HTML
       uses: chabad360/htmlproofer@master
@@ -72,7 +72,9 @@ jobs:
         parameter-overrides: "EnvironmentName=${{ steps.extract_branch.outputs.branch }},Product=${{ env.product }}"
     - name: Set Environment Name in HTML Files
       shell: pwsh
-      run: gci -r -filter *.html | foreach { (gc $_.fullname).replace("environmentph","develop") | out-file $_.fullname -force }
+      run: |
+        $(gc "./test/${{ steps.extract_branch.outputs.branch }}.json").replace("truman","${{ env.product }}") | out-file "./test/${{ steps.extract_branch.outputs.branch }}.json" -force
+        gci -r -filter *.html | foreach { (gc $_.fullname).replace("environmentph","develop") | out-file $_.fullname -force }
     - name: Upload Packages to S3
       run: |
         aws s3 sync ./scr/Dashboard "s3://${{ steps.extract_branch.outputs.branch }}-${{ env.product }}/"
@@ -80,8 +82,8 @@ jobs:
 
     - uses: matt-ball/newman-action@master
       with:
-        collection: collection.json
-        environment: ${{ steps.extract_branch.outputs.branch }}.json
+        collection: test/collection.json
+        environment: test/${{ steps.extract_branch.outputs.branch }}.json
 
 
     
