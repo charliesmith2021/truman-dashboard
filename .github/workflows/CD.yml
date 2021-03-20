@@ -1,11 +1,8 @@
 name: Truman Dashboard
 
-on: 
-  push:
-   # paths:
-   #   - 'scr/**'
-   #   - '!.github/**'
-   #   - '!/*.*'
+ 
+on:
+  [push,  workflow_dispatch]
 
 #
 env:
@@ -14,7 +11,7 @@ env:
   #DESTINATION_KEY: /AHC.Docman.Patchs/
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
   name: dev
-  product: truman1
+  product: truman
   #
 jobs:
   build:
