@@ -74,7 +74,7 @@ jobs:
       shell: pwsh
       run: |
         $(gc "./test/${{ steps.extract_branch.outputs.branch }}.json").replace("truman","${{ env.product }}") | out-file "./test/${{ steps.extract_branch.outputs.branch }}.json" -force
-        gci -r -filter *.html | foreach { (gc $_.fullname).replace("environmentph","develop") | out-file $_.fullname -force }
+        gci -r -filter *.html | foreach { (gc $_.fullname).replace("environmentph","${{ steps.extract_branch.outputs.branch }}") | out-file $_.fullname -force }
     - name: Upload Packages to S3
       run: |
         aws s3 sync ./scr/Dashboard "s3://${{ steps.extract_branch.outputs.branch }}-${{ env.product }}/"
