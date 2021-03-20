@@ -8,7 +8,9 @@ This is for proof of concept purposes only, I would recommand running on self-ho
 </p>
 
 <h2> Usage</h2>
-<p> Branch name is reference during bucket creation as environment name so branch names need to s3 bucket naming rules https://docs.aws.amazon.com/AmazonS3/latest/dev-retired/BucketRestrictions.html </p>
+<p>
+ 1. Branch name is reference during bucket creation as environment name so branch names need to follow s3 bucket naming rules https://docs.aws.amazon.com/AmazonS3/latest/dev-retired/BucketRestrictions.html. <br> </p>
+ <b>2. Update the product env variable in the workflow cd.yml file otherwise bucket creation will fail because they already exist in my account!!!</b>
 
 <h2>Example</h2>
 <p> http://develop-truman.s3-website.eu-west-2.amazonaws.com/</p>
