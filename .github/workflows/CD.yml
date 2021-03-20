@@ -2,10 +2,10 @@ name: Truman Dashboard
 
 on: 
   push:
-   # paths:
-   #   - 'scr/**'
-   #   - '!.github/**'
-   #   - '!/*.*'
+    paths:
+      - 'scr/**'
+      - '.github/**'
+      - '!/*.md'
 
 #
 env:
