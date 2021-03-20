@@ -2,13 +2,12 @@ name: Truman Dashboard
 
  
 on:
-  push
   workflow_dispatch:
     inputs:
       product:
         description: 'Product Name used in bucket name where files will be published'
         required: true
-        default: 'Mona the Octocat'
+        default: 'truman'
 
 #
 env:
