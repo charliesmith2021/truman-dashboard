@@ -1,0 +1,48 @@
+{
+	"info": {
+		"_postman_id": "d90c7720-641d-43d8-b191-03e2216d8ded",
+		"name": "Truman Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "index check",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 2000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Truman\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{environmentname}}-
+					.s3.amazonaws.com",
+					"protocol": "https",
+					"host": [
+						"{{environmentname}}-truman",
+						"s3",
+						"amazonaws",
+						"com"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

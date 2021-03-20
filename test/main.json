@@ -1,0 +1,14 @@
+{
+	"id": "2fd5f7d9-82e8-4dd3-b3ee-0c05101b4129",
+	"name": "Dashboard-Main",
+	"values": [
+		{
+			"key": "environmentname",
+			"value": "main",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2021-03-20T13:31:17.815Z",
+	"_postman_exported_using": "Postman/7.36.5"
+}

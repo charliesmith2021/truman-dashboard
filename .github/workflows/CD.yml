@@ -1,0 +1,87 @@
+name: Status.Dashboard
+
+on: 
+  push:
+   # paths:
+   #   - 'scr/**'
+   #   - '!.github/**'
+   #   - '!/*.*'
+
+#
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.S3_GIT_ACCESSKEY }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_GIT_SECRETKEY }}
+  #DESTINATION_KEY: /AHC.Docman.Patchs/
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+  name: dev
+  product: truman
+  #
+jobs:
+  build:
+    name: Test and Deploy
+    runs-on: ubuntu-18.04
+    ## Verioning
+    #runs-on: windows-latest
+    steps:  
+    - name: checkout
+      uses: actions/checkout@v2 
+      
+    - name: Extract branch name
+      shell: bash
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      id: extract_branch
+      
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v0.9.3
+      with:
+        versionSpec: '5.2.x'
+  
+    - name: Fetch all history for all tags and branches
+      run: git fetch --prune --unshallow
+
+    - name: Use GitVersion
+      id: gitversion # step id used as reference for output values
+      uses: gittools/actions/gitversion/execute@v0.9.3
+  
+    #- name: Validate Cloudformation Templates
+    #  uses: scottbrenner/cfn-lint-action@master
+    #  with:
+    #    args: "build/*.yaml"
+
+    - name: Check HTML
+      uses: chabad360/htmlproofer@master
+      with:
+        directory: "./scr"
+        # The directory to scan
+        arguments: --allow-missing-href --alt-ignore --empty-alt-ignore
+        # The arguments to pass to HTMLProofer
+    - name: Configure AWS credentials
+      id: creds
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-west-2 #${{ github.event.inputs.region }}
+
+    - name: Static S3 Home Page
+      uses: aws-actions/aws-cloudformation-github-deploy@v1
+      with:
+        name: "${{ steps.extract_branch.outputs.branch }}-${{ env.product }}"
+        no-fail-on-empty-changeset: "1"
+        template: build/s3.yaml
+        parameter-overrides: "EnvironmentName=${{ steps.extract_branch.outputs.branch }},Product=${{ env.product }}"
+    - name: Set Environment Name in HTML Files
+      shell: pwsh
+      run: gci -r -filter *.html | foreach { (gc $_.fullname).replace("environmentph","develop") | out-file $_.fullname -force }
+    - name: Upload Packages to S3
+      run: |
+        aws s3 sync ./scr/Dashboard "s3://${{ steps.extract_branch.outputs.branch }}-${{ env.product }}/"
+        aws s3 website "${{ steps.extract_branch.outputs.branch }}-${{ env.product }}" --index-document index.html
+
+    - uses: matt-ball/newman-action@master
+      with:
+        collection: collection.json
+        environment: ${{ steps.extract_branch.outputs.branch }}.json
+
+
+    

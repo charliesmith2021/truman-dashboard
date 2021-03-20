@@ -1,0 +1,14 @@
+{
+	"id": "aaf89228-0b72-4edf-be57-e4c0e878fec6",
+	"name": "Dashboard-Develop",
+	"values": [
+		{
+			"key": "environmentname",
+			"value": "develop",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2021-03-20T13:30:56.015Z",
+	"_postman_exported_using": "Postman/7.36.5"
+}
