@@ -5,7 +5,6 @@ on:
     paths:
       - 'scr/**'
       - '.github/**'
-      - '!*.md'
 
 #
 env:
