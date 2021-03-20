@@ -1,15 +1,8 @@
 name: Truman Dashboard
 
  
-on:
-  workflow_dispatch:
-    inputs:
-      product:
-        description: 'Product Name used in bucket name where files will be published'
-        required: true
-        default: 'truman'
+on: push
 
-#
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.S3_GIT_ACCESSKEY }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_GIT_SECRETKEY }}
@@ -68,19 +61,19 @@ jobs:
     - name: Static S3 Home Page
       uses: aws-actions/aws-cloudformation-github-deploy@v1
       with:
-        name: "${{ steps.extract_branch.outputs.branch }}-${{ github.event.inputs.name }}"
+        name: "${{ steps.extract_branch.outputs.branch }}-${{ env.product }}"
         no-fail-on-empty-changeset: "1"
         template: build/s3.yaml
-        parameter-overrides: "EnvironmentName=${{ steps.extract_branch.outputs.branch }},Product=${{ github.event.inputs.name }}"
+        parameter-overrides: "EnvironmentName=${{ steps.extract_branch.outputs.branch }},Product=${{ env.product }}"
     - name: Set Environment Name in HTML Files
       shell: pwsh
       run: |
-        $(gc "./test/${{ steps.extract_branch.outputs.branch }}.json").replace("truman","${{ github.event.inputs.name }}") | out-file "./test/${{ steps.extract_branch.outputs.branch }}.json" -force
+        $(gc "./test/${{ steps.extract_branch.outputs.branch }}.json").replace("truman","${{ env.product }}") | out-file "./test/${{ steps.extract_branch.outputs.branch }}.json" -force
         gci -r -filter *.html | foreach { (gc $_.fullname).replace("environmentph","${{ steps.extract_branch.outputs.branch }}") | out-file $_.fullname -force }
     - name: Upload Packages to S3
       run: |
-        aws s3 sync ./scr/Dashboard "s3://${{ steps.extract_branch.outputs.branch }}-${{ github.event.inputs.name }}/"
-        aws s3 website "${{ steps.extract_branch.outputs.branch }}-${{ github.event.inputs.name }}" --index-document index.html
+        aws s3 sync ./scr/Dashboard "s3://${{ steps.extract_branch.outputs.branch }}-${{ env.product }}/"
+        aws s3 website "${{ steps.extract_branch.outputs.branch }}-${{ env.product }}" --index-document index.html
 
     - uses: matt-ball/newman-action@master
       with:
