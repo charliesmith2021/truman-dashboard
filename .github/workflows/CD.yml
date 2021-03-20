@@ -14,7 +14,7 @@ env:
   #DESTINATION_KEY: /AHC.Docman.Patchs/
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
   name: dev
-  product: truman
+  product: truman1
   #
 jobs:
   build:
