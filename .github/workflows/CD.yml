@@ -5,7 +5,11 @@ on:
     paths:
       - 'scr/**'
       - '.github/**'
+<<<<<<< Updated upstream
       - '!/*.md'
+=======
+      - '!*.md'
+>>>>>>> Stashed changes
 
 #
 env:
