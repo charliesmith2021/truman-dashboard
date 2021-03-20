@@ -43,10 +43,10 @@ jobs:
       id: gitversion # step id used as reference for output values
       uses: gittools/actions/gitversion/execute@v0.9.3
   
-    #- name: Validate Cloudformation Templates
-    #  uses: scottbrenner/cfn-lint-action@master
-    #  with:
-    #    args: "build/*.yaml"
+    - name: Validate Cloudformation Templates
+      uses: scottbrenner/cfn-lint-action@master
+      with:
+        args: "build/*.yaml"
 
     - name: Check HTML
       uses: chabad360/htmlproofer@master
