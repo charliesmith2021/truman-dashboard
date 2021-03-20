@@ -1,0 +1,19 @@
+{
+	"id": "5aae0635-a1c4-4548-ae53-13b7a630821c",
+	"name": "Dashboard-QA",
+	"values": [
+		{
+			"key": "environmentname",
+			"value": "qa",
+			"enabled": true
+		},
+		{
+			"key": "product",
+			"value": "truman",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2021-03-20T15:16:02.338Z",
+	"_postman_exported_using": "Postman/7.36.5"
+}
