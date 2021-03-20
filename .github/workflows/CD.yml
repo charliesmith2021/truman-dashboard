@@ -1,11 +1,10 @@
 name: Truman Dashboard
 
-on: 
-  push:
-    paths:
-      - 'scr/**'
-      - '.github/**'
-      - '!/*.*'
+ 
+on:
+  create:
+    tags:
+      - v*
 
 #
 env:
