@@ -6,7 +6,6 @@ on: push
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.S3_GIT_ACCESSKEY }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_GIT_SECRETKEY }}
-  #DESTINATION_KEY: /AHC.Docman.Patchs/
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
   name: dev
   product: truman
